@@ -41,9 +41,7 @@ source myenv/bin/activate
 
 You can change "filename" and "output.json", modify "LOG_LEVEL" variable to 5 different levels to display level of information. Details here: https://docs.scrapy.org/en/2.11/topics/logging.html
 
-'''scrapy crawl spider_name -o LOGS/output_$(date +%Y%m%d*%H%M%S).json -s LOG_FILE=LOGS/log_$(date +%Y%m%d\_%H%M%S).txt -s LOG_LEVEL=DEBUG'''
-
-scrapy crawl perManufacture -o LOGS/output_$(date +%Y%m%d*%H%M%S).json -s LOG_FILE=LOGS/log_$(date +%Y%m%d\_%H%M%S).txt -s LOG_LEVEL=DEBUG
+`scrapy crawl spider_name -o LOGS/output_$(date +%Y%m%d*%H%M%S).json -s LOG_FILE=LOGS/log_$(date +%Y%m%d\_%H%M%S).txt -s LOG_LEVEL=DEBUG`
 
 #### Log Levels
 
@@ -61,26 +59,26 @@ logging.DEBUG - for debugging messages (lowest severity)
 
 #### if gitignore some file:
 
-'''git check-ignore + filename'''
+`git check-ignore + filename`
 
 ### Database operations
 
 #### Open and connect to postgres
 
-psql -U postgres
+`psql -U postgres`
 
 #### Back up database
 
-pg_dump -U postgres -d LocalPostgres -F c -b -v -f /Users/liuqiming/Desktop/pomu/europeanManufacture/manufacture_name_url.dump
+`pg_dump -U postgres -d LocalPostgres -F c -b -v -f /Users/liuqiming/Desktop/pomu/europeanManufacture/manufacture_name_url.dump`
 
 ## Usage
 
 ### Different search directory changing
 
-1. To change different directory, modify '''TABLE_NAME''' variable in '''seetings.py''', this will create a new table in current database
+1. To change different directory, modify `TABLE_NAME` variable in `seetings.py`, this will create a new table in current database
 
-2. In '''EuropeanManufactureSpider.py''',
-   (1) change '''url''' variable
+2. In `EuropeanManufactureSpider.py`,
+   (1) change `url` variable
    (2) change for loop range
 
 ####
