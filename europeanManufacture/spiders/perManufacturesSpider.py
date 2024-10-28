@@ -32,7 +32,7 @@ class PerManufactureSpider(scrapy.Spider):
       
       # Loop through each row and yield a request
       for i, (manufacture_name, url) in enumerate(rows):
-          print(f"Processing URL: {url}")
+          print(f"Processing {i}th manufacture {manufacture_name} URL: {url}\n")
           yield SplashRequest(
               url=url,
               callback=self.parse,

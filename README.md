@@ -41,7 +41,9 @@ source myenv/bin/activate
 
 You can change "filename" and "output.json", modify "LOG_LEVEL" variable to 5 different levels to display level of information. Details here: https://docs.scrapy.org/en/2.11/topics/logging.html
 
-'''scrapy crawl EuropeanManufactureSpider -o LOGS/output*$(date +%Y%m%d*%H%M%S).json -s LOG*FILE=LOGS/log*$(date +%Y%m%d\_%H%M%S).txt -s LOG_LEVEL=DEBUG'''
+'''scrapy crawl spider_name -o LOGS/output_$(date +%Y%m%d*%H%M%S).json -s LOG_FILE=LOGS/log_$(date +%Y%m%d\_%H%M%S).txt -s LOG_LEVEL=DEBUG'''
+
+scrapy crawl perManufacture -o LOGS/output_$(date +%Y%m%d*%H%M%S).json -s LOG_FILE=LOGS/log_$(date +%Y%m%d\_%H%M%S).txt -s LOG_LEVEL=DEBUG
 
 #### Log Levels
 
