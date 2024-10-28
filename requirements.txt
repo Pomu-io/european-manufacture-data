@@ -1,1 +1,4 @@
 scrapy-splash
+psycopg2
+scrapy-user-agents
+
