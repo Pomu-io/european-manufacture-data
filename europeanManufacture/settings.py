@@ -35,7 +35,7 @@ DOWNLOAD_DELAY = 3
 RANDOMIZE_DOWNLOAD_DELAY = True 
 # The download delay setting will honor only one of:
 CONCURRENT_REQUESTS_PER_DOMAIN = 2
-#CONCURRENT_REQUESTS_PER_IP = 16
+CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
 #COOKIES_ENABLED = False
@@ -76,8 +76,11 @@ DOWNLOADER_MIDDLEWARES = {
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
   #  "europeanManufacture.pipelines.EuropeanManufactureNameURLPipeline": 300,
+  # "europeanManufacture.pipelines.ProductImagePipeline": 1,
   "europeanManufacture.pipelines.PerEuropeanManufacturePipeline": 300,
 }
+
+IMAGES_STORE = '../IMAGES'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -105,8 +108,16 @@ REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
-WRITE_TO_TABLE_NAME = 'apparel_manufactures'
-READ_FROM_TABLE_NAME = 'apparel_name_url'
+#############  Database name Setting for perManufactureSpider  #############
+# apparel_manufactures
+PER_MANUFACTURE_WRITE_TO_TABLE_NAME = 'fashion_manufactures'
+# apparel_name_url
+PER_MANUFACTURE_READ_FROM_TABLE_NAME = 'fashion_name_url'
+
+#############  Database name Setting for perManufactureSpider  #############
+PRODUCT_LINKS_WRITE_TO_TABLE_NAME = 'apparel_manufactures'
+PRODUCT_LINKS_READ_FROM_TABLE_NAME = 'apparel_manufactures_product_links'
+
 
 # SPLASH_COOKIES_DEBUG is False by default. 
 #   Set to True to enable debugging cookies in the SplashCookiesMiddleware. This option is similar to COOKIES_DEBUG for the built-in scarpy cookies middleware: it logs sent and received cookies for all requests.

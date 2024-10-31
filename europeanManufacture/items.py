@@ -29,8 +29,18 @@ class PerManufactureItem(scrapy.Item):
     product_page_total = scrapy.Field()
     key_words = scrapy.Field()
 
+class ProductPageItem(scrapy.Item): 
+    manufacture_name = scrapy.Field()
+    europe_page_url = scrapy.Field()
+    product_links = scrapy.Field()
+
 class ProductItem(scrapy.Item): 
-    product_name = scrapy.Field()
+    # Maybe need
+    manufacture_name = scrapy.Field()
+    europe_page_url = scrapy.Field()
+
+    # Definitely need
+    product_name_full = scrapy.Field()
     product_discription = scrapy.Field()
     product_key_word = scrapy.Field()
 

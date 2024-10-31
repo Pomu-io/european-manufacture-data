@@ -1,0 +1,75 @@
+2024-10-28 12:40:50 [scrapy.utils.log] INFO: Scrapy 2.11.2 started (bot: europeanManufacture)
+2024-10-28 12:40:50 [scrapy.utils.log] INFO: Versions: lxml 4.9.2.0, libxml2 2.9.13, cssselect 1.2.0, parsel 1.9.1, w3lib 2.2.1, Twisted 24.3.0, Python 3.10.10 (main, Jun 15 2024, 15:25:19) [Clang 15.0.0 (clang-1500.0.40.1)], pyOpenSSL 24.1.0 (OpenSSL 3.2.2 4 Jun 2024), cryptography 42.0.8, Platform macOS-14.1.1-arm64-arm-64bit
+2024-10-28 12:40:50 [scrapy.addons] INFO: Enabled addons:
+[]
+2024-10-28 12:40:50 [asyncio] DEBUG: Using selector: KqueueSelector
+2024-10-28 12:40:50 [scrapy.utils.log] DEBUG: Using reactor: twisted.internet.asyncioreactor.AsyncioSelectorReactor
+2024-10-28 12:40:50 [scrapy.utils.log] DEBUG: Using asyncio event loop: asyncio.unix_events._UnixSelectorEventLoop
+2024-10-28 12:40:50 [scrapy.extensions.telnet] INFO: Telnet Password: 2ab2c26f9a0161ae
+2024-10-28 12:40:50 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.memusage.MemoryUsage',
+ 'scrapy.extensions.feedexport.FeedExporter',
+ 'scrapy.extensions.logstats.LogStats']
+2024-10-28 12:40:50 [scrapy.crawler] INFO: Overridden settings:
+{'BOT_NAME': 'europeanManufacture',
+ 'DUPEFILTER_CLASS': 'scrapy_splash.SplashAwareDupeFilter',
+ 'FEED_EXPORT_ENCODING': 'utf-8',
+ 'HTTPCACHE_STORAGE': 'scrapy_splash.SplashAwareFSCacheStorage',
+ 'LOG_FILE': 'LOGS/log_20241028_124049.txt',
+ 'NEWSPIDER_MODULE': 'europeanManufacture.spiders',
+ 'REQUEST_FINGERPRINTER_IMPLEMENTATION': '2.7',
+ 'SPIDER_MODULES': ['europeanManufacture.spiders'],
+ 'TWISTED_REACTOR': 'twisted.internet.asyncioreactor.AsyncioSelectorReactor',
+ 'USER_AGENT': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) '
+               'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile '
+               'Safari/537.36'}
+2024-10-28 12:40:50 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy_splash.SplashCookiesMiddleware',
+ 'scrapy_splash.SplashMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2024-10-28 12:40:50 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy_splash.SplashDeduplicateArgsMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2024-10-28 12:40:50 [twisted] CRITICAL: Unhandled error in Deferred:
+2024-10-28 12:40:50 [twisted] CRITICAL: 
+Traceback (most recent call last):
+  File "/Users/liuqiming/.pyenv/versions/3.10.10/lib/python3.10/site-packages/twisted/internet/defer.py", line 2003, in _inlineCallbacks
+    result = context.run(gen.send, result)
+  File "/Users/liuqiming/.pyenv/versions/3.10.10/lib/python3.10/site-packages/scrapy/crawler.py", line 158, in crawl
+    self.engine = self._create_engine()
+  File "/Users/liuqiming/.pyenv/versions/3.10.10/lib/python3.10/site-packages/scrapy/crawler.py", line 172, in _create_engine
+    return ExecutionEngine(self, lambda _: self.stop())
+  File "/Users/liuqiming/.pyenv/versions/3.10.10/lib/python3.10/site-packages/scrapy/core/engine.py", line 101, in __init__
+    self.scraper = Scraper(crawler)
+  File "/Users/liuqiming/.pyenv/versions/3.10.10/lib/python3.10/site-packages/scrapy/core/scraper.py", line 109, in __init__
+    self.itemproc: ItemPipelineManager = itemproc_cls.from_crawler(crawler)
+  File "/Users/liuqiming/.pyenv/versions/3.10.10/lib/python3.10/site-packages/scrapy/middleware.py", line 90, in from_crawler
+    return cls.from_settings(crawler.settings, crawler)
+  File "/Users/liuqiming/.pyenv/versions/3.10.10/lib/python3.10/site-packages/scrapy/middleware.py", line 67, in from_settings
+    mw = create_instance(mwcls, settings, crawler)
+  File "/Users/liuqiming/.pyenv/versions/3.10.10/lib/python3.10/site-packages/scrapy/utils/misc.py", line 188, in create_instance
+    instance = objcls.from_crawler(crawler, *args, **kwargs)
+  File "/Users/liuqiming/Desktop/pomu/europeanManufacture/europeanManufacture/pipelines.py", line 157, in from_crawler
+    return cls(table_name=table_name)
+  File "/Users/liuqiming/Desktop/pomu/europeanManufacture/europeanManufacture/pipelines.py", line 95, in __init__
+    self.cur.execute(f"""
+psycopg2.errors.SyntaxError: syntax error at or near "("
+LINE 2:             CREATE TABLE IF NOT EXISTS  (
+                                                ^
+

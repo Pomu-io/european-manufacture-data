@@ -24,9 +24,10 @@ class PerManufactureSpider(scrapy.Spider):
     try: 
       connection = psycopg2.connect(**self.db_params)
       cursor = connection.cursor()
+      cursor.execute("ROLLBACK")
       
       # Fetch all rows from the specified table
-      table_name = self.settings.get('READ_FROM_TABLE_NAME', 'apparel_name_url')
+      table_name = self.settings.get('PER_MANUFACTURE_READ_FROM_TABLE_NAME', 'EXCEpTION_NAME_name_url')
       cursor.execute(f"SELECT manufacture_name, url FROM {table_name}")
       rows = cursor.fetchall()
       
@@ -114,8 +115,8 @@ class PerManufactureSpider(scrapy.Spider):
     founded_time = response.xpath("//div[@data-test='founding-year']//strong/text()").get(default=-1)
     employee_number = response.xpath("//div[@data-test='employee-count']//strong/text()").get(default=-1)
     supplier_type = response.xpath("//div[@data-test='supplier-types']//span/text()").get(default=-1)
-    about_us = response.xpath('.//div[@data-test="description"]//text()').getall()[1]
-    product_amount = response.xpath("//h2[@class='title no-margin font-display-500 col-span-1 md:col-span-2 order-2']/text()").get()[:-21] if response.xpath("//h2[@class='title no-margin font-display-500 col-span-1 md:col-span-2 order-2']/text()") else -1
+    about_us = response.xpath('.//div[@data-test="description"]//text()').getall()[1] if response.xpath('.//div[@data-test="description"]//text()') else -1
+    product_amount = int(response.xpath("//h2[@class='title no-margin font-display-500 col-span-1 md:col-span-2 order-2']/text()").get()[:-20]) if response.xpath("//h2[@class='title no-margin font-display-500 col-span-1 md:col-span-2 order-2']/text()") else -1
     product_page_total = response.xpath("//a[@data-test='pagination-number']/text()").getall()[-1] if response.xpath("//a[@data-test='pagination-number']/text()") else -1
     key_words = ', '.join ([item.strip() for item in response.xpath("//div[contains(@class, 'flex flex-wrap gap-1')]//a[@class='item']/text()").getall()])
     if response.css('script#\\__NUXT_DATA__::text'):
@@ -154,16 +155,5 @@ class PerManufactureSpider(scrapy.Spider):
     print(f"\nitem obtained from {name} and {europe_page_url} is\n {item_manufacture}\n")
 
     yield item_manufacture
-
-    # Images if the webpage has images
-    # last_page = response.xpath(".//a[@data-test='pagination-number']/text()").getall()[-1]
-    # original_url + "?page={i}" https://www.europages.co.uk/GS7-CO/00000005449388-790690001.html?page=2
-    # for name, url in zip(manufacture_names, complete_urls): 
-    #   item = ProductItem(
-    #     name=name, 
-    #     url=url
-    #   )
-      
-      # yield item
   
 

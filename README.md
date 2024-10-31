@@ -41,7 +41,9 @@ source myenv/bin/activate
 
 You can change "filename" and "output.json", modify "LOG_LEVEL" variable to 5 different levels to display level of information. Details here: https://docs.scrapy.org/en/2.11/topics/logging.html
 
-`scrapy crawl spider_name -o LOGS/output_$(date +%Y%m%d*%H%M%S).json -s LOG_FILE=LOGS/log_$(date +%Y%m%d\_%H%M%S).txt -s LOG_LEVEL=DEBUG`
+`scrapy crawl spider_name -o LOGS/fashion_output_$(date +%Y%m%d*%H%M%S).json -s LOG_FILE=LOGS/fashion_log_$(date +%Y%m%d\_%H%M%S).txt -s LOG_LEVEL=DEBUG`
+
+`scrapy crawl perManufacture -o LOGS/fashion_output_$(date +%Y%m%d*%H%M%S).json -s LOG_FILE=LOGS/fashion_log_$(date +%Y%m%d\_%H%M%S).txt -s LOG_LEVEL=DEBUG`
 
 #### Log Levels
 
@@ -88,3 +90,7 @@ logging.DEBUG - for debugging messages (lowest severity)
 
 refer to article about scrapy and postgres
 https://scrapeops.io/python-scrapy-playbook/scrapy-save-data-postgres/
+
+### Drafts
+
+response.xpath("//h2[@class='title no-margin font-display-500 col-span-1 md:col-span-2 order-2']/text()").get()
