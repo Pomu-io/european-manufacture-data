@@ -108,6 +108,9 @@ REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
+# Storing process
+JOBDIR = 'job_storage'
+
 #############  Database name Setting for perManufactureSpider  #############
 # apparel_manufactures
 PER_MANUFACTURE_WRITE_TO_TABLE_NAME = 'fashion_manufactures'

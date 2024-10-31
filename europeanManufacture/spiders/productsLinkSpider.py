@@ -94,7 +94,7 @@ class ProductLinksSpider(scrapy.Spider):
     print(f"In spider parse response, manufacture is {product_page_item['manufacture_name']}")
     
     # what should be sent request to, or just get them all in all pages, then visit them one by one
-    print(f"productItem in spider parse function is: {product_page_item}")
+    print(f"productPageItem in spider parse function is: {product_page_item}")
 
     yield product_page_item
   

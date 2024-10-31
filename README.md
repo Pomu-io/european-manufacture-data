@@ -71,7 +71,10 @@ logging.DEBUG - for debugging messages (lowest severity)
 
 #### Back up database
 
+example:
 `pg_dump -U postgres -d DATABASE_NAME -F c -b -v -f /Users/liuqiming/Desktop/pomu/europeanManufacture/manufacture_name_url.dump`
+
+take-away:
 `pg_dump -U postgres -d europe_manufactures -F c -b -v -f /Users/liuqiming/Desktop/pomu/europeanManufacture/manufacture_name_url.dump`
 
 ## Usage

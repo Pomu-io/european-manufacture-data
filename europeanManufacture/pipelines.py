@@ -238,7 +238,7 @@ class PerEuropeanManufacturePipelineNo2:
     @classmethod
     def from_crawler(cls, crawler):
         # Get table_name from settings or default to 'apparel_name_url'
-        table_name = crawler.settings.get('No2_PER_MANUFACTURE_WRITE_TO_TABLE_NAME', 'apparel_manufactures')
+        table_name = crawler.settings.get('No2_PER_MANUFACTURE_WRITE_TO_TABLE_NAME', 'fashion_manufactures')
         return cls(table_name=table_name)
 
 
