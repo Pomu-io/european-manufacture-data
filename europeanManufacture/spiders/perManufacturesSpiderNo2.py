@@ -1,7 +1,6 @@
 import scrapy 
 from scrapy_splash import SplashRequest
 from europeanManufacture.items import PerManufactureItem
-from europeanManufacture.items import ProductItem
 import datetime
 import time
 import psycopg2

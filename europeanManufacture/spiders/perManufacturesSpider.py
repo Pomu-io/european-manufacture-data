@@ -1,7 +1,6 @@
 import scrapy 
 from scrapy_splash import SplashRequest
 from europeanManufacture.items import PerManufactureItem
-from europeanManufacture.items import ProductItem
 import datetime
 import time
 import psycopg2
@@ -45,62 +44,6 @@ class PerManufactureSpider(scrapy.Spider):
       self.logger.error(f"Database error: {e}")
     finally: 
       self.close_connection(connection, cursor)
-  
-  def click_script(self):
-        # Lua script to simulate clicking the phone button and capturing the response
-        return """
-        function main(splash, args)
-            splash.private_mode_enabled = false
-            splash:go(args.url)
-            splash:wait(1)
-
-            -- Select the JSON data inside the script tag
-            local script = splash:select("#__NUXT_DATA__")
-            if script then
-                local json_data = script:property("textContent")
-                return {json = json_data}  -- Return the raw JSON for parsing in Scrapy
-            else
-                return {error = "JSON data not found"}
-            end
-        end
-        """
-
-  def get_login_script(self):
-        return """
-        function main(splash, args)
-            splash.private_mode_enabled = false
-            splash:go(args.url)
-            splash:wait(1)
-
-            -- Fill in login details
-            splash:select("#username"):send_text(args.username)
-            splash:select("#password"):send_text(args.password)
-            
-            -- Submit the login form
-            local login_button = splash:select("button[type='submit']")
-            if login_button then
-                login_button:mouse_click()
-                splash:wait(3)  -- Wait for the login to process
-            end
-
-            -- Check if login was successful
-            local logged_in = splash:select(".logout-button")  -- Adjust this selector based on actual login indicator
-            if logged_in then
-                -- Go to the target page after logging in
-                splash:go("https://www.example.com/target-page")  -- Replace with actual page containing VAT button
-                splash:wait(2)
-
-                -- Find and click the VAT button
-                local vat_button = splash:select("button.vat-number-button")
-                if vat_button then
-                    vat_button:mouse_click()
-                    splash:wait(1)  -- Wait for VAT number to load
-                end
-            end
-
-            return splash:html()
-        end
-        """
 
   def parse(self, response): 
 

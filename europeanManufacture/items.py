@@ -34,13 +34,22 @@ class ProductPageItem(scrapy.Item):
     europe_page_url = scrapy.Field()
     product_links = scrapy.Field()
 
-class ProductItem(scrapy.Item): 
+class ProductDetailItem(scrapy.Item): 
     # Maybe need
     manufacture_name = scrapy.Field()
     europe_page_url = scrapy.Field()
 
     # Definitely need
-    product_name_full = scrapy.Field()
-    product_discription = scrapy.Field()
-    product_key_word = scrapy.Field()
+    product_name = scrapy.Field()
+    product_image_link = scrapy.Field()
+    product_url = scrapy.Field()
+    product_description = scrapy.Field()
+    product_keywords = scrapy.Field()
+
+class ProductImageItem(scrapy.Item): 
+    manufacture_name = scrapy.Field()
+    image_urls = scrapy.Field()
+    images = scrapy.Field()
+    image_pipeline_item = scrapy.Field()
+
 

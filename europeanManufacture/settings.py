@@ -77,7 +77,7 @@ DOWNLOADER_MIDDLEWARES = {
 ITEM_PIPELINES = {
   #  "europeanManufacture.pipelines.EuropeanManufactureNameURLPipeline": 300,
   # "europeanManufacture.pipelines.ProductImagePipeline": 1,
-  "europeanManufacture.pipelines.PerEuropeanManufacturePipeline": 300,
+  # "europeanManufacture.pipelines.PerEuropeanManufacturePipeline": 300,
 }
 
 IMAGES_STORE = '../IMAGES'
@@ -113,14 +113,17 @@ JOBDIR = 'job_storage'
 
 #############  Database name Setting for perManufactureSpider  #############
 # apparel_manufactures
-PER_MANUFACTURE_WRITE_TO_TABLE_NAME = 'fashion_manufactures'
+PER_MANUFACTURE_WRITE_TO_TABLE_NAME = 'luxury_manufactures'
 # apparel_name_url
-PER_MANUFACTURE_READ_FROM_TABLE_NAME = 'fashion_name_url'
+PER_MANUFACTURE_READ_FROM_TABLE_NAME = 'luxury_name_url'
 
 #############  Database name Setting for perManufactureSpider  #############
-PRODUCT_LINKS_WRITE_TO_TABLE_NAME = 'apparel_manufactures'
-PRODUCT_LINKS_READ_FROM_TABLE_NAME = 'apparel_manufactures_product_links'
+PRODUCT_LINKS_WRITE_TO_TABLE_NAME = 'apparel_manufactures_product_links'
+PRODUCT_LINKS_READ_FROM_TABLE_NAME = 'apparel_manufactures'
 
+#############  Database name Setting for productDetailsSpider  #############
+PRODUCT_DETAILS_READ_FROM_TABLE_NAME = 'apparel_manufactures_product_links'
+PRODUCT_DETAILS_WRITE_TO_TABLE_NAME = 'apparel_manufacture_product_details'
 
 # SPLASH_COOKIES_DEBUG is False by default. 
 #   Set to True to enable debugging cookies in the SplashCookiesMiddleware. This option is similar to COOKIES_DEBUG for the built-in scarpy cookies middleware: it logs sent and received cookies for all requests.
@@ -129,4 +132,9 @@ PRODUCT_LINKS_READ_FROM_TABLE_NAME = 'apparel_manufactures_product_links'
 # SPLASH_SLOT_POLICY is scrapy_splash.SlotPolicy.PER_DOMAIN 
 #   (as object, not just a string) by default. It specifies how concurrency & politeness are maintained for Splash requests, and specify the default value for slot_policy argument for SplashRequest, which is described below.
 SPLASH_SLOT_POLICY = scrapy_splash.SlotPolicy.PER_DOMAIN
+
+
+DUPEFILTER_CLASS = 'scrapy.dupefilters.BaseDupeFilter'
+# disable it for scapying prevents image frequent download
+HTTPCACHE_ENABLED = False
 
