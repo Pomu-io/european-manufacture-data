@@ -340,7 +340,7 @@ class ProductDetailPipeline:
         self.cur.execute("ROLLBACK")
         
         self.cur.execute(f"""
-            CREATE TABLE IF NOT EXISTS {self.table_name} (
+            CREATE TABLE IF NOT EXISTS manufacture_ref (
             id serial PRIMARY KEY,
             manufacture_name VARCHAR(255),
             europe_page_url TEXT
@@ -358,53 +358,53 @@ class ProductDetailPipeline:
         try: 
             item_length = len(item.get('product_name'))
             self.cur.execute(f"""
-            INSERT INTO {self.table_name} (
-                manufacture_name, europe_page_url
-            ) VALUES (%s, %s)
+            INSERT INTO manufacture_ref (
+                manufacture_name, 
+                europe_page_url
+            ) VALUES (%s, %s)  RETURNING id;
             """, (item.get('manufacture_name'), item.get('europe_page_url')))
-            for i in range (1, item_length):
-                self.cur.execute(f"""
-                    do $$
-                        begin
-                            if not exists (
-                                SELECT 1 FROM information_schema.columns 
-                                where table_name = '{self.table_name}'
-                                and column_name = 'product_{i}_name'
-                            ) then
-                                alter table {self.table_name}
-                                add column product_{i}_name text null;
-                                alter table {self.table_name}
-                                add column product_{i}_url text null;
-                                alter table {self.table_name}
-                                add column product_{i}_description text null;
-                                alter table {self.table_name}
-                                add column product_{i}_keywords text null; 
-                                alter table {self.table_name}
-                                add column product_{i}_image_link text null; 
-                            end if;
-                    end $$;
+
+            manufacture_id = self.cur.fetchone()[0]
+
+            self.cur.execute(f"""
+                    CREATE TABLE IF NOT EXISTS products (
+                        id serial primary key, 
+                        manufacture_id integer NOT NULL REFERENCES manufacture_ref(id) ON DELETE CASCADE,
+                        product_name VARCHAR(255), 
+                        product_url TEXT, 
+                        product_description TEXT, 
+                        product_keywords TEXT, 
+                        product_image_url TEXT
+                    )
                     """)
-                # print(f"item.get('product_name') is \n{item.get('product_name')}\n")
+            for i in range (1, item_length):
+                # insert name, url, description, keywords, image_url all in one here. just adding new lines. 
+                print(f"inserting {i+1}th product data: \n")
                 for key, value in item.get('product_name').items(): 
                     # print(f"key is {key}, value is {value}")
                     if key == f'product_{i}_name': 
-                        self.cur.execute(f"""update {self.table_name} set product_{i}_name=%s where manufacture_name=%s """, (value, item['manufacture_name']))
+                        cur_product_name = value
                 # print(f"item.get('product_url') is \n{item.get('product_url')}\n")
                 for key, value in item.get('product_url').items(): 
                     if key == f'product_{i}_url':
-                        self.cur.execute(f"""update {self.table_name} set product_{i}_url=%s where manufacture_name=%s""", (value, item['manufacture_name']))
+                        cur_product_url = value
                 # print(f"item.get('product_description') is \n{item.get('product_description')}\n")
                 for key, value in item.get('product_description').items(): 
                     if key == f'product_{i}_description':
-                        self.cur.execute(f"""update {self.table_name} set product_{i}_description=%s where manufacture_name=%s""", (value, item['manufacture_name']))
+                        cur_product_description = value
                 # print(f"item.get('product_keywords') is \n{item.get(f'product_keywords')}\n")
                 for key, value in item.get('product_keywords').items(): 
                     if key == f'product_{i}_keywords':
-                        self.cur.execute(f"""update {self.table_name} set product_{i}_keywords=%s where manufacture_name=%s""", (value, item['manufacture_name']))
+                        cur_product_keywords = value
                 # print(f"item.get('product_image_link') is \n{item.get(f'product_image_link')}\n")
                 for key, value in item.get('product_image_link').items(): 
                     if key == f'product_{i}_image_link':
-                        self.cur.execute(f"""update {self.table_name} set product_{i}_image_link=%s where manufacture_name=%s""", (value, item['manufacture_name']))
+                        cur_product_image_link = value
+            
+                self.cur.execute(f"""
+                INSERT INTO products (manufacture_id, product_name, product_url, product_description, product_keywords, product_image_url)
+                VALUES (%s, %s, %s, %s, %s, %s);
+            """, (manufacture_id, cur_product_name, cur_product_url, cur_product_description, cur_product_keywords, cur_product_image_link))
             
             self.connection.commit()
         except psycopg2.DatabaseError as e:

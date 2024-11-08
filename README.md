@@ -30,20 +30,31 @@ https://www.europages.co.uk/KENDAL-BED-CENTRE/00000004257213-001.html
 
 ### Virtual Environment
 
-'''
-python3 -m venv myenv
-'''
-'''
-source myenv/bin/activate
-'''
+`python3 -m venv myenv`
+
+`source myenv/bin/activate`
 
 ### Run the project
+
+#### Run the docker of scrapy-spash
+
+`docker run -p 8050:8050 scrapinghub/splash`
 
 You can change "filename" and "output.json", modify "LOG_LEVEL" variable to 5 different levels to display level of information. Details here: https://docs.scrapy.org/en/2.11/topics/logging.html
 
 `scrapy crawl spider_name -o LOGS/fashion_output_$(date +%Y%m%d*%H%M%S).json -s LOG_FILE=LOGS/fashion_log_$(date +%Y%m%d\_%H%M%S).txt -s LOG_LEVEL=DEBUG`
 
-`scrapy crawl perManufacture -o LOGS/fashion_output_$(date +%Y%m%d*%H%M%S).json -s LOG_FILE=LOGS/fashion_log_$(date +%Y%m%d\_%H%M%S).txt -s LOG_LEVEL=DEBUG`
+#### Run main manufacture page spider
+
+`scrapy crawl productLinksSpider -o LOGS/fashion_output_$(date +%Y%m%d*%H%M%S).json -s LOG_FILE=LOGS/fashion_log_$(date +%Y%m%d\_%H%M%S).txt -s LOG_LEVEL=DEBUG`
+
+#### Run product page link spider of each each manufacture
+
+`scrapy crawl productLinksSpider -o LOGS/products_output_$(date +%Y%m%d_%H%M%S).json -s LOG_FILE=LOGS/products_log_$(date +%Y%m%d_%H%M%S).txt -s LOG_LEVEL=DEBUG`
+
+#### Run product detail spider of each each manufacture
+
+`scrapy crawl productDetailSpider -o LOGS/products_details_output_$(date +%Y%m%d_%H%M%S).json -s LOG_FILE=LOGS/products_details_$(date +%Y%m%d_%H%M%S).txt -s LOG_LEVEL=DEBUG`
 
 #### Log Levels
 

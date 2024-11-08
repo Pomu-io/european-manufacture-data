@@ -38,15 +38,20 @@ class ProductLinksSpider(scrapy.Spider):
       
       # Fetch all rows from the specified table
       table_name = self.settings.get('PRODUCT_DETAILS_READ_FROM_TABLE_NAME')
-      cursor.execute(f"SELECT manufacture_name, product_links FROM {table_name} ORDER BY RANDOM() LIMIT 3")
-      # cursor.execute(f"SELECT manufacture_name, product_links FROM {table_name} LIMIT 2")
+      # cursor.execute(f"SELECT manufacture_name, product_links FROM {table_name} ORDER BY RANDOM() LIMIT 1")
+      cursor.execute(f'''
+        SELECT p.manufacture_name, p.product_links 
+        FROM {table_name} as p
+        LEFT JOIN manufacture_ref AS m ON p.manufacture_name = m.manufacture_name
+        WHERE m.manufacture_name IS NULL
+      ''')
       rows = cursor.fetchall()
 
       base_url="https://www.europages.co.uk"
       # Loop through each row and yield a request
       for i, (manufacture_name , product_links) in enumerate(rows):
-        print("--——------------------------------------------------")
-        print(f"Getting {i+1}th manufacture {manufacture_name}\n")
+        # print("--——------------------------------------------------")
+        # print(f"Getting {i+1}th manufacture {manufacture_name}\n")
         self.manufacture_data[manufacture_name] = []
         # product_links is a text string with "," separate every item; get item to lists
         product_links = product_links.split(", ")
@@ -59,16 +64,16 @@ class ProductLinksSpider(scrapy.Spider):
           if j+1 == len(full_urls): 
             print(f"Last product NO.{j+1} for manufacture {manufacture_name}")
             yield SplashRequest(
-            url=per_url, 
-            callback=self.parse,
-            meta={'manufacture_number': i, 'product_number': j, 'manufacture_name': manufacture_name, 'last_one': True}, 
+              url=per_url, 
+              callback=self.parse,
+              meta={'manufacture_number': i, 'product_number': j, 'manufacture_name': manufacture_name, 'last_one': True}, 
           ) 
           else: 
             yield SplashRequest(
-            url=per_url, 
-            callback=self.parse,
-            meta={'manufacture_number': i, 'product_number': j, 'manufacture_name': manufacture_name, 'last_one': False}, 
-          ) 
+              url=per_url, 
+              callback=self.parse,
+              meta={'manufacture_number': i, 'product_number': j, 'manufacture_name': manufacture_name, 'last_one': False}, 
+          )
     except Exception as e: 
       print(f"database connection error {e}")
       self.logger.error(f"Database error: {e}")
@@ -100,6 +105,13 @@ class ProductLinksSpider(scrapy.Spider):
     # print(f"product_keywords is {product_keywords}")
 
     if manufacture_name in self.manufacture_data: 
+      # self.manufacture_data[manufacture_name].append({
+      #   f"product_name": product_name, 
+      #   f"product_url": product_url, 
+      #   f"product_description": product_description, 
+      #   f"product_keywords": product_keywords, 
+      #   f"product_image_link": product_image_link
+      # })
       self.manufacture_data[manufacture_name].append({
         f"product_{product_number}_name": product_name, 
         f"product_{product_number}_url": product_url, 
@@ -111,8 +123,6 @@ class ProductLinksSpider(scrapy.Spider):
     # print("--——------------------------------------------------")
     # print(f"Length: {len(self.manufacture_data[manufacture_name])}")
     # print(f"self.manufacture_data[manufacture_name] is {self.manufacture_data[manufacture_name]}")
-    # for key, value in self.manufacture_data[manufacture_name]: 
-    #   print(f"{key}: {value}")
     # print("--——------------------------------------------------")
 
     if last_product: 
@@ -138,10 +148,8 @@ class ProductLinksSpider(scrapy.Spider):
       image_pipeline_item = {}
       for name_key, name_value in product_name.items(): 
         for link_key, link_value in product_image_link.items(): 
-          # print(f"current name_key is {name_key}, link_key is {link_key}")
           if name_key[:-5] in link_key: 
             image_pipeline_item[name_value] = link_value
-          # print(f"current image_pipeline_item is {image_pipeline_item}")
       
       product_detail_item = ProductDetailItem(
         manufacture_name = manufacture_name, 
@@ -152,6 +160,8 @@ class ProductLinksSpider(scrapy.Spider):
         product_description = product_description, 
         product_keywords = product_keywords, 
       )
+
+      # print(f"item finally looks like: \n{product_detail_item}")
 
       yield product_detail_item
 
