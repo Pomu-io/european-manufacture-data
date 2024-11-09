@@ -405,7 +405,7 @@ class ProductDetailPipeline:
                 INSERT INTO products (manufacture_id, product_name, product_url, product_description, product_keywords, product_image_url)
                 VALUES (%s, %s, %s, %s, %s, %s);
             """, (manufacture_id, cur_product_name, cur_product_url, cur_product_description, cur_product_keywords, cur_product_image_link))
-            
+            print(f"finish inserting at time {datetime.datetime.now()}")
             self.connection.commit()
         except psycopg2.DatabaseError as e:
             spider.logger.error(f"Error inserting item into database: {e}")
